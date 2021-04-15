@@ -85,9 +85,10 @@ export const useConfirm = (init: BaseData = defaultData) => {
 
 export const useConfirmDelete = (init?: Partial<BaseData>) => {
   return useConfirm({
-    body: 'Are you sure you want to delete this',
-    buttonColor: 'red',
     ...defaultData,
+    body: 'Are you sure you want to delete this',
+    buttonText: 'Delete',
+    buttonColor: 'red',
     ...init
   });
 };
