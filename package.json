@@ -63,5 +63,6 @@
       "path": "dist/chakra-confirm.esm.js",
       "limit": "10 KB"
     }
-  ]
+  ],
+  "dependencies": {}
 }

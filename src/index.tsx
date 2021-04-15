@@ -16,7 +16,7 @@ export const GlobalConfirmModal: React.FC = () => {
   const { value, setValue } = useContext(confirmContext);
   const { isOpen } = value;
 
-  const cancelRef = useRef<HTMLButtonElement>(null);
+  const confirmRef = useRef<HTMLButtonElement>(null);
 
   const onClose = () => {
     value.data?.onClick(false);
@@ -35,7 +35,7 @@ export const GlobalConfirmModal: React.FC = () => {
   return (
     <AlertDialog
       isOpen={isOpen}
-      leastDestructiveRef={cancelRef}
+      leastDestructiveRef={confirmRef}
       onClose={onClose}
     >
       <AlertDialogOverlay>
@@ -47,10 +47,9 @@ export const GlobalConfirmModal: React.FC = () => {
           <AlertDialogBody>{value.data?.body}</AlertDialogBody>
 
           <AlertDialogFooter>
-            <Button ref={cancelRef} onClick={onClose}>
-              Cancel
-            </Button>
+            <Button onClick={onClose}>Cancel</Button>
             <Button
+              ref={confirmRef}
               colorScheme={value.data?.buttonColor || 'blue'}
               onClick={onClick}
               ml={3}
