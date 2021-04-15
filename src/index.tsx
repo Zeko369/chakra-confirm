@@ -10,7 +10,7 @@ import {
 import React, { useContext, useRef } from 'react';
 
 import { ConfirmData, confirmContext } from './context';
-export { useConfirmInit, ConfirmContextProvider } from './context';
+export { ConfirmContextProvider } from './context';
 
 export const GlobalConfirmModal: React.FC = () => {
   const { value, setValue } = useContext(confirmContext);
