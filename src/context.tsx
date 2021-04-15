@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext } from 'react';
 
 export interface ConfirmData {
   title: string;
@@ -22,13 +22,3 @@ export const confirmContext = createContext<ConfirmContext>({
   value: { isOpen: false },
   setValue: () => {}
 });
-
-export const ConfirmContextProvider: React.FC = ({ children }) => {
-  const [value, setValue] = useState<ConfirmContextValue>({ isOpen: false });
-
-  return (
-    <confirmContext.Provider value={{ value, setValue }}>
-      {children}
-    </confirmContext.Provider>
-  );
-};

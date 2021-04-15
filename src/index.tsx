@@ -7,12 +7,11 @@ import {
   AlertDialogFooter,
   Button
 } from '@chakra-ui/react';
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 
-import { ConfirmData, confirmContext } from './context';
-export { ConfirmContextProvider } from './context';
+import { ConfirmData, confirmContext, ConfirmContextValue } from './context';
 
-export const GlobalConfirmModal: React.FC = () => {
+const GlobalConfirmModal: React.FC = () => {
   const { value, setValue } = useContext(confirmContext);
   const { isOpen } = value;
 
@@ -60,6 +59,17 @@ export const GlobalConfirmModal: React.FC = () => {
         </AlertDialogContent>
       </AlertDialogOverlay>
     </AlertDialog>
+  );
+};
+
+export const ConfirmContextProvider: React.FC = ({ children }) => {
+  const [value, setValue] = useState<ConfirmContextValue>({ isOpen: false });
+
+  return (
+    <confirmContext.Provider value={{ value, setValue }}>
+      <GlobalConfirmModal />
+      {children}
+    </confirmContext.Provider>
   );
 };
 
