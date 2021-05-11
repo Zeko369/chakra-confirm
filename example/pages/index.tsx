@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Heading,
-  HStack,
-  VStack,
-  Text,
-  Button,
-  useToast
-} from '@chakra-ui/react';
-import { ExternalLinkIcon } from '@chakra-ui/icons';
+import { Button, useToast, VStack } from '@chakra-ui/react';
 import { NextPage } from 'next';
 
 import { useConfirm, useConfirmDelete } from '../../dist';
