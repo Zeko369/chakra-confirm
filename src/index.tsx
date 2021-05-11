@@ -1,15 +1,15 @@
 import {
   AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Button
 } from '@chakra-ui/react';
 import React, { useContext, useRef, useState } from 'react';
 
-import { ConfirmData, confirmContext, ConfirmContextValue } from './context';
+import { confirmContext, ConfirmContextValue, ConfirmData } from './context';
 
 const GlobalConfirmModal: React.FC = () => {
   const { value, setValue } = useContext(confirmContext);
