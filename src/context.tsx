@@ -5,6 +5,7 @@ export interface ConfirmData {
   body?: JSX.Element | string;
   buttonText?: string;
   buttonColor?: string;
+  isCentered?: boolean;
   onClick: (val: boolean) => Promise<void> | void;
 }
 
