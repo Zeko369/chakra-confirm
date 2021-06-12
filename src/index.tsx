@@ -36,7 +36,7 @@ const GlobalConfirmModal: React.FC = () => {
       isOpen={isOpen}
       leastDestructiveRef={confirmRef}
       onClose={onClose}
-      isCentered={value.data.isCentered}
+      isCentered={value.data?.isCentered}
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
