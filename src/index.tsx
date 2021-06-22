@@ -44,7 +44,9 @@ const GlobalConfirmModal: React.FC = () => {
             {value.data?.title || 'Are you sure?'}
           </AlertDialogHeader>
 
-          <AlertDialogBody>{value.data?.body}</AlertDialogBody>
+          {value.data?.body && (
+            <AlertDialogBody>{value.data?.body}</AlertDialogBody>
+          )}
 
           <AlertDialogFooter>
             <Button onClick={onClose}>Cancel</Button>
