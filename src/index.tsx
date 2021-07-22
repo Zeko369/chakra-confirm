@@ -108,7 +108,7 @@ export const useConfirmDelete = (init?: Partial<BaseData>) => {
 };
 
 // experimental
-export const useEXPERIMENTAL_ALTER = (init?: Partial<BaseData>) => {
+export const useUNSTABLE_Alert = (init?: Partial<BaseData>) => {
   return useConfirm({
     ...defaultData,
     onlyAlert: true,
