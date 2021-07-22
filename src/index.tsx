@@ -50,14 +50,16 @@ const GlobalConfirmModal: React.FC = () => {
 
           <AlertDialogFooter>
             <Button onClick={onClose}>Cancel</Button>
-            <Button
-              ref={confirmRef}
-              colorScheme={value.data?.buttonColor || 'blue'}
-              onClick={onClick}
-              ml={3}
-            >
-              {value.data?.buttonText || 'Confirm'}
-            </Button>
+            {!value.data?.onlyAlert && (
+              <Button
+                ref={confirmRef}
+                colorScheme={value.data?.buttonColor || 'blue'}
+                onClick={onClick}
+                ml={3}
+              >
+                {value.data?.buttonText || 'Confirm'}
+              </Button>
+            )}
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogOverlay>
@@ -101,6 +103,15 @@ export const useConfirmDelete = (init?: Partial<BaseData>) => {
     body: 'Are you sure you want to delete this',
     buttonText: 'Delete',
     buttonColor: 'red',
+    ...init
+  });
+};
+
+// experimental
+export const useEXPERIMENTAL_ALTER = (init?: Partial<BaseData>) => {
+  return useConfirm({
+    ...defaultData,
+    onlyAlert: true,
     ...init
   });
 };

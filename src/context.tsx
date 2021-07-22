@@ -6,6 +6,7 @@ export interface ConfirmData {
   buttonText?: string;
   buttonColor?: string;
   isCentered?: boolean;
+  onlyAlert?: boolean;
   onClick: (val: boolean) => Promise<void> | void;
 }
 
