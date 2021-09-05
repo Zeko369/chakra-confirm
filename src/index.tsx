@@ -118,7 +118,8 @@ export const useConfirm = (init?: BaseData) => {
 };
 
 export const useConfirmDelete = (init?: Partial<BaseData>) => {
-  return useConfirm({ ...init });
+  const context = useContext(confirmContext);
+  return useConfirm({ ...context.defaults?.delete, ...init });
 };
 
 // experimental
