@@ -18,7 +18,7 @@ import {
 } from './context';
 
 const GlobalConfirmModal: React.FC = () => {
-  const { value, setValue } = useContext(confirmContext);
+  const { value, defaults, setValue } = useContext(confirmContext);
   const { isOpen } = value;
 
   const confirmRef = useRef<HTMLButtonElement>(null);
@@ -57,7 +57,7 @@ const GlobalConfirmModal: React.FC = () => {
           )}
 
           <AlertDialogFooter>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onClose}>{defaults.cancel}</Button>
             {!value.data?.onlyAlert && (
               <Button
                 ref={confirmRef}
@@ -91,6 +91,7 @@ export const ConfirmContextProvider: React.FC<ConfirmProviderProps> = (
         value,
         setValue,
         defaults: {
+          cancel: defaults?.cancel || defaultDefaults.cancel,
           confirm: { ...defaultDefaults?.confirm, ...defaults?.confirm },
           delete: { ...defaultDefaults?.delete, ...defaults?.delete }
         }

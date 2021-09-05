@@ -19,12 +19,12 @@ export interface ConfirmContextValue {
 export interface ConfirmContext {
   setValue: React.Dispatch<React.SetStateAction<ConfirmContextValue>>;
   value: ConfirmContextValue;
-  defaults?: Partial<
+  defaults: Partial<
     Record<
       'confirm' | 'delete',
       Pick<ConfirmData, 'title' | 'body' | 'buttonText' | 'buttonColor'>
     >
-  >;
+  > & { cancel: string };
 }
 
 export const defaultDefaults: ConfirmContext['defaults'] = {
@@ -36,18 +36,12 @@ export const defaultDefaults: ConfirmContext['defaults'] = {
     body: 'Are you sure you want to delete this',
     buttonText: 'Delete',
     buttonColor: 'red'
-  }
+  },
+  cancel: 'Cancel'
 };
 
 export const confirmContext = createContext<ConfirmContext>({
   value: { isOpen: false },
   setValue: () => {},
-  defaults: {
-    confirm: {
-      ...defaultDefaults.confirm
-    },
-    delete: {
-      ...defaultDefaults.delete
-    }
-  }
+  defaults: { ...defaultDefaults }
 });
