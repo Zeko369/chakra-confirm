@@ -9,7 +9,13 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext, useRef, useState } from 'react';
 
-import { confirmContext, ConfirmContextValue, ConfirmData } from './context';
+import {
+  ConfirmContext,
+  confirmContext,
+  ConfirmContextValue,
+  ConfirmData,
+  defaultDefaults
+} from './context';
 
 const GlobalConfirmModal: React.FC = () => {
   const { value, setValue } = useContext(confirmContext);
@@ -69,11 +75,22 @@ const GlobalConfirmModal: React.FC = () => {
   );
 };
 
-export const ConfirmContextProvider: React.FC = ({ children }) => {
+export const ConfirmContextProvider: React.FC<{
+  defaults: ConfirmContext['defaults'];
+}> = ({ children, defaults }) => {
   const [value, setValue] = useState<ConfirmContextValue>({ isOpen: false });
 
   return (
-    <confirmContext.Provider value={{ value, setValue }}>
+    <confirmContext.Provider
+      value={{
+        value,
+        setValue,
+        defaults: {
+          confirm: { ...defaultDefaults?.confirm, ...defaults?.confirm },
+          delete: { ...defaultDefaults?.delete, ...defaults?.delete }
+        }
+      }}
+    >
       <GlobalConfirmModal />
       {children}
     </confirmContext.Provider>
@@ -81,8 +98,8 @@ export const ConfirmContextProvider: React.FC = ({ children }) => {
 };
 
 type BaseData = Omit<ConfirmData, 'onClick'>;
-const defaultData = { title: 'Are you sure' };
-export const useConfirm = (init: BaseData = defaultData) => {
+
+export const useConfirm = (init?: BaseData) => {
   const context = useContext(confirmContext);
 
   return (data?: Partial<BaseData>) => {
@@ -90,6 +107,7 @@ export const useConfirm = (init: BaseData = defaultData) => {
       context.setValue({
         isOpen: true,
         data: {
+          ...context.defaults?.confirm,
           ...init,
           ...data,
           onClick: resolve
@@ -100,19 +118,12 @@ export const useConfirm = (init: BaseData = defaultData) => {
 };
 
 export const useConfirmDelete = (init?: Partial<BaseData>) => {
-  return useConfirm({
-    ...defaultData,
-    body: 'Are you sure you want to delete this',
-    buttonText: 'Delete',
-    buttonColor: 'red',
-    ...init
-  });
+  return useConfirm({ ...init });
 };
 
 // experimental
 export const useUNSTABLE_Alert = (init?: Partial<BaseData>) => {
   return useConfirm({
-    ...defaultData,
     onlyAlert: true,
     ...init
   });

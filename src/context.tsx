@@ -1,7 +1,7 @@
 import React, { createContext } from 'react';
 
 export interface ConfirmData {
-  title: string;
+  title?: string;
   body?: JSX.Element | string | null;
   actionBody?: (close: () => void) => JSX.Element | null;
   buttonText?: string;
@@ -16,12 +16,38 @@ export interface ConfirmContextValue {
   data?: ConfirmData;
 }
 
-interface ConfirmContext {
+export interface ConfirmContext {
   setValue: React.Dispatch<React.SetStateAction<ConfirmContextValue>>;
   value: ConfirmContextValue;
+  defaults?: Partial<
+    Record<
+      'confirm' | 'delete',
+      Pick<ConfirmData, 'title' | 'body' | 'buttonText' | 'buttonColor'>
+    >
+  >;
 }
+
+export const defaultDefaults: ConfirmContext['defaults'] = {
+  confirm: {
+    title: 'Are you sure?'
+  },
+  delete: {
+    title: 'Are you sure?',
+    body: 'Are you sure you want to delete this',
+    buttonText: 'Delete',
+    buttonColor: 'red'
+  }
+};
 
 export const confirmContext = createContext<ConfirmContext>({
   value: { isOpen: false },
-  setValue: () => {}
+  setValue: () => {},
+  defaults: {
+    confirm: {
+      ...defaultDefaults.confirm
+    },
+    delete: {
+      ...defaultDefaults.delete
+    }
+  }
 });
