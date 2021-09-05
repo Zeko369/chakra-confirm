@@ -75,9 +75,12 @@ const GlobalConfirmModal: React.FC = () => {
   );
 };
 
-export const ConfirmContextProvider: React.FC<{
-  defaults: ConfirmContext['defaults'];
-}> = ({ children, defaults }) => {
+interface ProviderProps {
+  defaults?: ConfirmContext['defaults'];
+}
+
+export const ConfirmContextProvider: React.FC<ProviderProps> = (props) => {
+  const { children, defaults } = props;
   const [value, setValue] = useState<ConfirmContextValue>({ isOpen: false });
 
   return (
