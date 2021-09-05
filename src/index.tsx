@@ -5,7 +5,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Button
+  Button,
+  Heading
 } from '@chakra-ui/react';
 import React, { useContext, useRef, useState } from 'react';
 
@@ -46,8 +47,8 @@ const GlobalConfirmModal: React.FC = () => {
     >
       <AlertDialogOverlay>
         <AlertDialogContent>
-          <AlertDialogHeader fontSize="lg" fontWeight="bold">
-            {value.data?.title || 'Are you sure?'}
+          <AlertDialogHeader>
+            <Heading size="md">{value.data?.title || 'Are you sure?'}</Heading>
           </AlertDialogHeader>
 
           {(value.data?.actionBody || value.data?.body) && (
