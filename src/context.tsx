@@ -11,7 +11,9 @@ export interface ConfirmData {
   onClick: (val: boolean) => Promise<void> | void;
 }
 
+export type PopupType = 'prompt' | 'confirm' | 'alert';
 export interface ConfirmContextValue {
+  type: PopupType;
   isOpen: boolean;
   data?: ConfirmData;
 }
@@ -21,13 +23,18 @@ export interface ConfirmContext {
   value: ConfirmContextValue;
   defaults: Partial<
     Record<
-      'confirm' | 'delete',
+      'prompt' | 'confirm' | 'delete',
       Pick<ConfirmData, 'title' | 'body' | 'buttonText' | 'buttonColor'>
     >
   > & { cancel: string };
 }
 
 export const defaultDefaults: ConfirmContext['defaults'] = {
+  prompt: {
+    title: 'Enter some data',
+    buttonText: 'Submit',
+    buttonColor: 'blue'
+  },
   confirm: {
     title: 'Are you sure?'
   },
@@ -41,7 +48,7 @@ export const defaultDefaults: ConfirmContext['defaults'] = {
 };
 
 export const confirmContext = createContext<ConfirmContext>({
-  value: { isOpen: false },
+  value: { type: 'confirm', isOpen: false },
   setValue: () => {},
   defaults: { ...defaultDefaults }
 });

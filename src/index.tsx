@@ -1,3 +1,4 @@
+import React, { useContext, useRef, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -6,16 +7,19 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
-  Heading
+  FormControl,
+  FormLabel,
+  Heading,
+  Input
 } from '@chakra-ui/react';
-import React, { useContext, useRef, useState } from 'react';
 
 import {
   ConfirmContext,
   confirmContext,
   ConfirmContextValue,
   ConfirmData,
-  defaultDefaults
+  defaultDefaults,
+  PopupType
 } from './context';
 
 const GlobalConfirmModal: React.FC = () => {
@@ -25,14 +29,26 @@ const GlobalConfirmModal: React.FC = () => {
   const confirmRef = useRef<HTMLButtonElement>(null);
 
   const onClose = () => {
-    value.data?.onClick(false);
-    setValue({ data: undefined, isOpen: false });
+    if (value.type === 'prompt') {
+      value.data?.onClick(null as any);
+    } else {
+      value.data?.onClick(false);
+    }
+
+    setValue((d) => ({ ...d, data: undefined, isOpen: false }));
   };
 
   const onClick = () => {
-    value.data?.onClick(true);
-    setValue({ data: undefined, isOpen: false });
+    if (value.type === 'prompt') {
+      value.data?.onClick(tmp as any);
+    } else {
+      value.data?.onClick(true);
+    }
+
+    setValue((d) => ({ ...d, data: undefined, isOpen: false }));
   };
+
+  const [tmp, setTmp] = useState<string>('');
 
   if (!isOpen) {
     return null;
@@ -51,10 +67,26 @@ const GlobalConfirmModal: React.FC = () => {
             <Heading size="md">{value.data?.title || 'Are you sure?'}</Heading>
           </AlertDialogHeader>
 
-          {(value.data?.actionBody || value.data?.body) && (
+          {value.type === 'prompt' ? (
             <AlertDialogBody>
-              {value.data?.actionBody?.(onClose) || value.data?.body}
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  onClick();
+                }}
+              >
+                <FormControl>
+                  <FormLabel></FormLabel>
+                  <Input value={tmp} onChange={(e) => setTmp(e.target.value)} />
+                </FormControl>
+              </form>
             </AlertDialogBody>
+          ) : (
+            (value.data?.actionBody || value.data?.body) && (
+              <AlertDialogBody>
+                {value.data?.actionBody?.(onClose) || value.data?.body}
+              </AlertDialogBody>
+            )
           )}
 
           <AlertDialogFooter>
@@ -84,7 +116,10 @@ export const ConfirmContextProvider: React.FC<ConfirmProviderProps> = (
   props
 ) => {
   const { children, defaults } = props;
-  const [value, setValue] = useState<ConfirmContextValue>({ isOpen: false });
+  const [value, setValue] = useState<ConfirmContextValue>({
+    isOpen: false,
+    type: 'alert'
+  });
 
   return (
     <confirmContext.Provider
@@ -106,12 +141,13 @@ export const ConfirmContextProvider: React.FC<ConfirmProviderProps> = (
 
 type BaseData = Omit<ConfirmData, 'onClick'>;
 
-export const useConfirm = (init?: BaseData) => {
+export const useConfirm = (init?: BaseData, type?: PopupType) => {
   const context = useContext(confirmContext);
 
   return (data?: Partial<BaseData>) => {
     return new Promise<boolean>((resolve, _reject) => {
       context.setValue({
+        type: type || 'confirm',
         isOpen: true,
         data: {
           ...context.defaults?.confirm,
@@ -129,10 +165,15 @@ export const useConfirmDelete = (init?: Partial<BaseData>) => {
   return useConfirm({ ...context.defaults?.delete, ...init });
 };
 
+export const usePrompt = (init?: Partial<BaseData>) => {
+  const context = useContext(confirmContext);
+  const fn = useConfirm({ ...context.defaults?.prompt, ...init }, 'prompt');
+  return (fn as unknown) as (
+    data?: Partial<BaseData> | undefined
+  ) => Promise<string | null>;
+};
+
 // experimental
 export const useUNSTABLE_Alert = (init?: Partial<BaseData>) => {
-  return useConfirm({
-    onlyAlert: true,
-    ...init
-  });
+  return useConfirm({ onlyAlert: true, ...init }, 'alert');
 };
