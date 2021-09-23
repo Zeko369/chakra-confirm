@@ -2,7 +2,7 @@
   "name": "chakra-confirm",
   "description": "Simple confirm popup with ChakraUI",
   "author": "Fran Zekan",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
