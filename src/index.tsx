@@ -8,7 +8,6 @@ import {
   AlertDialogOverlay,
   Button,
   FormControl,
-  FormLabel,
   Heading,
   Input
 } from '@chakra-ui/react';
@@ -27,6 +26,7 @@ const GlobalConfirmModal: React.FC = () => {
   const { isOpen } = value;
 
   const confirmRef = useRef<HTMLButtonElement>(null);
+  const [tmp, setTmp] = useState<string>('');
 
   const onClose = () => {
     if (value.type === 'prompt') {
@@ -36,6 +36,7 @@ const GlobalConfirmModal: React.FC = () => {
     }
 
     setValue((d) => ({ ...d, data: undefined, isOpen: false }));
+    setTmp('');
   };
 
   const onClick = () => {
@@ -46,9 +47,8 @@ const GlobalConfirmModal: React.FC = () => {
     }
 
     setValue((d) => ({ ...d, data: undefined, isOpen: false }));
+    setTmp('');
   };
-
-  const [tmp, setTmp] = useState<string>('');
 
   if (!isOpen) {
     return null;
@@ -67,7 +67,13 @@ const GlobalConfirmModal: React.FC = () => {
             <Heading size="md">{value.data?.title || 'Are you sure?'}</Heading>
           </AlertDialogHeader>
 
-          {value.type === 'prompt' ? (
+          {(value.data?.actionBody || value.data?.body) && (
+            <AlertDialogBody>
+              {value.data?.actionBody?.(onClose) || value.data?.body}
+            </AlertDialogBody>
+          )}
+
+          {value.type === 'prompt' && (
             <AlertDialogBody>
               <form
                 onSubmit={(e) => {
@@ -76,17 +82,12 @@ const GlobalConfirmModal: React.FC = () => {
                 }}
               >
                 <FormControl>
-                  <FormLabel></FormLabel>
+                  {/*TODO*/}
+                  {/*<FormLabel>{value.label}</FormLabel>*/}
                   <Input value={tmp} onChange={(e) => setTmp(e.target.value)} />
                 </FormControl>
               </form>
             </AlertDialogBody>
-          ) : (
-            (value.data?.actionBody || value.data?.body) && (
-              <AlertDialogBody>
-                {value.data?.actionBody?.(onClose) || value.data?.body}
-              </AlertDialogBody>
-            )
           )}
 
           <AlertDialogFooter>

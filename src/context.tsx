@@ -3,6 +3,7 @@ import React, { createContext } from 'react';
 export interface ConfirmData {
   title?: string;
   body?: JSX.Element | string | false | null;
+  label?: string;
   actionBody?: (close: () => void) => JSX.Element | false | null;
   buttonText?: string;
   buttonColor?: string;
