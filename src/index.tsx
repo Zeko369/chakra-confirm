@@ -67,7 +67,7 @@ const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
     }
 
     return (
-      <Button ref={ref} onClick={on}>
+      <Button ref={ref} onClick={on} {...buttonProps} variant="outline">
         Are you sure?
       </Button>
     );
