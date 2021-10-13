@@ -48,7 +48,7 @@ const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
       }
 
       return () => {};
-    }, [check]);
+    }, [check, off]);
 
     if (!doubleConfirm) {
       return (
@@ -78,7 +78,7 @@ const GlobalConfirmModal: React.FC = () => {
   const { value, defaults, setValue } = useContext(confirmContext);
   const { isOpen } = value;
 
-  const confirmRef = useRef<HTMLButtonElement>(null);
+  const confirmRef = useRef<any>(null);
   const [tmp, setTmp] = useState<string>('');
 
   const onClose = () => {
@@ -137,7 +137,11 @@ const GlobalConfirmModal: React.FC = () => {
                 <FormControl>
                   {/*TODO*/}
                   {/*<FormLabel>{value.label}</FormLabel>*/}
-                  <Input value={tmp} onChange={(e) => setTmp(e.target.value)} />
+                  <Input
+                    ref={confirmRef}
+                    value={tmp}
+                    onChange={(e) => setTmp(e.target.value)}
+                  />
                 </FormControl>
               </form>
             </AlertDialogBody>
@@ -151,7 +155,7 @@ const GlobalConfirmModal: React.FC = () => {
                   colorScheme: value.data?.buttonColor || 'blue',
                   ml: 3
                 }}
-                ref={confirmRef}
+                ref={value.type === 'prompt' ? null : confirmRef}
                 onClick={onClick}
                 doubleConfirm={value.data?.doubleConfirm || false}
               >
