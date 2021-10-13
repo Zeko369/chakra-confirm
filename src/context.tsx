@@ -10,6 +10,8 @@ export interface ConfirmData {
   isCentered?: boolean;
   onlyAlert?: boolean;
   onClick: (val: boolean) => Promise<void> | void;
+
+  doubleConfirm?: boolean;
 }
 
 export type PopupType = 'prompt' | 'confirm' | 'alert';

@@ -1,4 +1,10 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -7,9 +13,11 @@ import {
   AlertDialogHeader,
   AlertDialogOverlay,
   Button,
+  ButtonProps,
   FormControl,
   Heading,
-  Input
+  Input,
+  useBoolean
 } from '@chakra-ui/react';
 
 import {
@@ -20,6 +28,51 @@ import {
   defaultDefaults,
   PopupType
 } from './context';
+
+interface SubmitButtonProps {
+  onClick: () => void;
+  doubleConfirm: boolean;
+  buttonProps: ButtonProps;
+  children: React.ReactNode;
+}
+
+const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
+  (props, ref) => {
+    const { onClick, doubleConfirm, buttonProps, children } = props;
+    const [check, { on, off }] = useBoolean(false);
+
+    useEffect(() => {
+      if (check) {
+        const timeout = setTimeout(off, 1000);
+        return () => clearTimeout(timeout);
+      }
+
+      return () => {};
+    }, [check]);
+
+    if (!doubleConfirm) {
+      return (
+        <Button ref={ref} onClick={onClick} {...buttonProps}>
+          {children}
+        </Button>
+      );
+    }
+
+    if (check) {
+      return (
+        <Button ref={ref} onClick={onClick} {...buttonProps}>
+          {children}
+        </Button>
+      );
+    }
+
+    return (
+      <Button ref={ref} onClick={on}>
+        Are you sure?
+      </Button>
+    );
+  }
+);
 
 const GlobalConfirmModal: React.FC = () => {
   const { value, defaults, setValue } = useContext(confirmContext);
@@ -93,14 +146,17 @@ const GlobalConfirmModal: React.FC = () => {
           <AlertDialogFooter>
             <Button onClick={onClose}>{defaults.cancel}</Button>
             {!value.data?.onlyAlert && (
-              <Button
+              <SubmitButton
+                buttonProps={{
+                  colorScheme: value.data?.buttonColor || 'blue',
+                  ml: 3
+                }}
                 ref={confirmRef}
-                colorScheme={value.data?.buttonColor || 'blue'}
                 onClick={onClick}
-                ml={3}
+                doubleConfirm={value.data?.doubleConfirm || false}
               >
                 {value.data?.buttonText || 'Confirm'}
-              </Button>
+              </SubmitButton>
             )}
           </AlertDialogFooter>
         </AlertDialogContent>
