@@ -12,6 +12,7 @@ export interface ConfirmData {
   onClick: (val: boolean) => Promise<void> | void;
 
   doubleConfirm?: boolean;
+  textConfirm?: string;
 }
 
 export type PopupType = 'prompt' | 'confirm' | 'alert';

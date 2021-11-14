@@ -234,6 +234,18 @@ export const usePrompt = (init?: Partial<BaseData>) => {
   ) => Promise<string | null>;
 };
 
+export const usePromptWithClose = (init?: Partial<BaseData>) => {
+  const context = useContext(confirmContext);
+  const fn = useConfirm({ ...context.defaults?.prompt, ...init }, 'prompt');
+
+  return [
+    (fn as unknown) as (
+      data?: Partial<BaseData> | undefined
+    ) => Promise<string | null>,
+    context
+  ] as const;
+};
+
 // experimental
 export const useUNSTABLE_Alert = (init?: Partial<BaseData>) => {
   return useConfirm({ onlyAlert: true, ...init }, 'alert');
