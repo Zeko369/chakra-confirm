@@ -1,10 +1,4 @@
-import React, {
-  forwardRef,
-  useContext,
-  useEffect,
-  useRef,
-  useState
-} from 'react';
+import React, { forwardRef, useContext, useRef, useState } from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -39,16 +33,16 @@ interface SubmitButtonProps {
 const SubmitButton = forwardRef<HTMLButtonElement, SubmitButtonProps>(
   (props, ref) => {
     const { onClick, doubleConfirm, buttonProps, children } = props;
-    const [check, { on, off }] = useBoolean(false);
+    const [check, { on }] = useBoolean(false);
 
-    useEffect(() => {
-      if (check) {
-        const timeout = setTimeout(off, 1000);
-        return () => clearTimeout(timeout);
-      }
+    // useEffect(() => {
+    //   if (check) {
+    //     const timeout = setTimeout(off, 1000);
+    //     return () => clearTimeout(timeout);
+    //   }
 
-      return () => {};
-    }, [check, off]);
+    //   return () => {};
+    // }, [check, off]);
 
     if (!doubleConfirm) {
       return (
