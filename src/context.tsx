@@ -13,12 +13,18 @@ export interface ConfirmData {
 
   doubleConfirm?: boolean;
   textConfirm?: string;
+
+  // TODO: DO THIS PROPERLY
+  customBody?: React.FC<{
+    setState: React.Dispatch<React.SetStateAction<any>>;
+  }>;
 }
 
 export type PopupType = 'prompt' | 'confirm' | 'alert';
 export interface ConfirmContextValue {
   type: PopupType;
   isOpen: boolean;
+  isLoading: boolean;
   data?: ConfirmData;
 }
 
@@ -52,7 +58,7 @@ export const defaultDefaults: ConfirmContext['defaults'] = {
 };
 
 export const confirmContext = createContext<ConfirmContext>({
-  value: { type: 'confirm', isOpen: false },
+  value: { type: 'confirm', isOpen: false, isLoading: false },
   setValue: () => {},
   defaults: { ...defaultDefaults }
 });

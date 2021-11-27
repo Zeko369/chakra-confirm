@@ -101,6 +101,8 @@ const GlobalConfirmModal: React.FC = () => {
     return null;
   }
 
+  const CustomForm = value.data?.customBody;
+
   return (
     <AlertDialog
       isOpen={isOpen}
@@ -128,15 +130,19 @@ const GlobalConfirmModal: React.FC = () => {
                   onClick();
                 }}
               >
-                <FormControl>
-                  {/*TODO*/}
-                  {/*<FormLabel>{value.label}</FormLabel>*/}
-                  <Input
-                    ref={confirmRef}
-                    value={tmp}
-                    onChange={(e) => setTmp(e.target.value)}
-                  />
-                </FormControl>
+                {CustomForm ? (
+                  <CustomForm setState={setTmp} />
+                ) : (
+                  <FormControl>
+                    {/*TODO*/}
+                    {/*<FormLabel>{value.label}</FormLabel>*/}
+                    <Input
+                      ref={confirmRef}
+                      value={tmp}
+                      onChange={(e) => setTmp(e.target.value)}
+                    />
+                  </FormControl>
+                )}
               </form>
             </AlertDialogBody>
           )}
@@ -173,6 +179,7 @@ export const ConfirmContextProvider: React.FC<ConfirmProviderProps> = (
   const { children, defaults } = props;
   const [value, setValue] = useState<ConfirmContextValue>({
     isOpen: false,
+    isLoading: false,
     type: 'alert'
   });
 
@@ -204,6 +211,7 @@ export const useConfirm = (init?: BaseData, type?: PopupType) => {
       context.setValue({
         type: type || 'confirm',
         isOpen: true,
+        isLoading: false,
         data: {
           ...context.defaults?.confirm,
           ...init,
