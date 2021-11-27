@@ -16,6 +16,7 @@ export interface ConfirmData {
 
   // TODO: DO THIS PROPERLY
   customBody?: React.FC<{
+    state: any;
     setState: React.Dispatch<React.SetStateAction<any>>;
   }>;
 }

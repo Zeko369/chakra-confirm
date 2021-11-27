@@ -131,7 +131,7 @@ const GlobalConfirmModal: React.FC = () => {
                 }}
               >
                 {CustomForm ? (
-                  <CustomForm setState={setTmp} />
+                  <CustomForm state={tmp} setState={setTmp} />
                 ) : (
                   <FormControl>
                     {/*TODO*/}
