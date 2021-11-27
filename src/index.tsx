@@ -223,20 +223,20 @@ export const useConfirm = (init?: BaseData, type?: PopupType) => {
   };
 };
 
-export const useConfirmDelete = (init?: Partial<BaseData>) => {
+export function useConfirmDelete(init?: Partial<BaseData>) {
   const context = useContext(confirmContext);
   return useConfirm({ ...context.defaults?.delete, ...init });
-};
+}
 
-export const usePrompt = (init?: Partial<BaseData>) => {
+export function usePrompt<T = string>(init?: Partial<BaseData>) {
   const context = useContext(confirmContext);
   const fn = useConfirm({ ...context.defaults?.prompt, ...init }, 'prompt');
   return (fn as unknown) as (
     data?: Partial<BaseData> | undefined
-  ) => Promise<string | null>;
-};
+  ) => Promise<T | null>;
+}
 
-export const usePromptWithClose = (init?: Partial<BaseData>) => {
+export function usePromptWithClose(init?: Partial<BaseData>) {
   const context = useContext(confirmContext);
   const fn = useConfirm({ ...context.defaults?.prompt, ...init }, 'prompt');
 
@@ -246,9 +246,9 @@ export const usePromptWithClose = (init?: Partial<BaseData>) => {
     ) => Promise<string | null>,
     context
   ] as const;
-};
+}
 
 // experimental
-export const useUNSTABLE_Alert = (init?: Partial<BaseData>) => {
+export function useUNSTABLE_Alert(init?: Partial<BaseData>) {
   return useConfirm({ onlyAlert: true, ...init }, 'alert');
-};
+}
