@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 
-export interface ConfirmData {
+export interface ConfirmData<T = string> {
   title?: string;
   body?: JSX.Element | string | false | null;
   label?: string;
@@ -16,8 +16,8 @@ export interface ConfirmData {
 
   // TODO: DO THIS PROPERLY
   customBody?: React.FC<{
-    state: any;
-    setState: React.Dispatch<React.SetStateAction<any>>;
+    state: T;
+    setState: React.Dispatch<React.SetStateAction<T>>;
   }>;
 }
 

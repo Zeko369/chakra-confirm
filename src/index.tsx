@@ -201,7 +201,7 @@ export const ConfirmContextProvider: React.FC<ConfirmProviderProps> = (
   );
 };
 
-type BaseData = Omit<ConfirmData, 'onClick'>;
+type BaseData<T = string> = Omit<ConfirmData<T>, 'onClick'>;
 
 export const useConfirm = (init?: BaseData, type?: PopupType) => {
   const context = useContext(confirmContext);
@@ -232,7 +232,7 @@ export function usePrompt<T = string>(init?: Partial<BaseData>) {
   const context = useContext(confirmContext);
   const fn = useConfirm({ ...context.defaults?.prompt, ...init }, 'prompt');
   return (fn as unknown) as (
-    data?: Partial<BaseData> | undefined
+    data?: Partial<BaseData<T>> | undefined
   ) => Promise<T | null>;
 }
 
