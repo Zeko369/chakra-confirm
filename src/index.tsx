@@ -1,4 +1,10 @@
-import React, { forwardRef, useContext, useRef, useState } from 'react';
+import React, {
+  forwardRef,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import {
   AlertDialog,
   AlertDialogBody,
@@ -75,6 +81,12 @@ const GlobalConfirmModal: React.FC = () => {
   const confirmRef = useRef<any>(null);
   const [isFormValid, setIsFormValid] = useState(true);
   const [tmp, setTmp] = useState<string>('');
+
+  useEffect(() => {
+    if (isOpen) {
+      setTmp(value.data?.defaultState || '');
+    }
+  }, [isOpen, value.data]);
 
   const onClose = () => {
     if (value.type === 'prompt') {
