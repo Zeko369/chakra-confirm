@@ -73,6 +73,7 @@ const GlobalConfirmModal: React.FC = () => {
   const { isOpen } = value;
 
   const confirmRef = useRef<any>(null);
+  const [isFormValid, setIsFormValid] = useState(true);
   const [tmp, setTmp] = useState<string>('');
 
   const onClose = () => {
@@ -82,8 +83,9 @@ const GlobalConfirmModal: React.FC = () => {
       value.data?.onClick(false);
     }
 
-    setValue((d) => ({ ...d, data: undefined, isOpen: false }));
     setTmp('');
+    setValue((d) => ({ ...d, data: undefined, isOpen: false }));
+    setIsFormValid(true);
   };
 
   const onClick = () => {
@@ -93,8 +95,9 @@ const GlobalConfirmModal: React.FC = () => {
       value.data?.onClick(true);
     }
 
-    setValue((d) => ({ ...d, data: undefined, isOpen: false }));
     setTmp('');
+    setValue((d) => ({ ...d, data: undefined, isOpen: false }));
+    setIsFormValid(true);
   };
 
   if (!isOpen) {
@@ -127,11 +130,18 @@ const GlobalConfirmModal: React.FC = () => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  onClick();
+                  if (isFormValid) {
+                    onClick();
+                  }
                 }}
               >
                 {CustomForm ? (
-                  <CustomForm state={tmp} setState={setTmp} />
+                  <CustomForm
+                    state={tmp}
+                    setState={setTmp}
+                    isFormValid={isFormValid}
+                    setIsFormValid={setIsFormValid}
+                  />
                 ) : (
                   <FormControl>
                     {/*TODO*/}
@@ -153,6 +163,7 @@ const GlobalConfirmModal: React.FC = () => {
               <SubmitButton
                 buttonProps={{
                   colorScheme: value.data?.buttonColor || 'blue',
+                  isDisabled: !isFormValid,
                   ml: 3
                 }}
                 ref={value.type === 'prompt' ? null : confirmRef}
