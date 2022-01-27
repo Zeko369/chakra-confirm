@@ -10,6 +10,7 @@ export interface ConfirmData<T = string> {
   isCentered?: boolean;
   onlyAlert?: boolean;
   onClick: (val: boolean) => Promise<void> | void;
+  size?: string;
 
   doubleConfirm?: boolean;
   textConfirm?: string;
