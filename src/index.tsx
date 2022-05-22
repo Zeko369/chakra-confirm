@@ -195,6 +195,7 @@ const GlobalConfirmModal: React.FC = () => {
 
 export interface ConfirmProviderProps {
   defaults?: ConfirmContext['defaults'];
+  children: React.ReactNode;
 }
 
 export const ConfirmContextProvider: React.FC<ConfirmProviderProps> = (
