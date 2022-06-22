@@ -85,6 +85,7 @@ const GlobalConfirmModal: React.FC = () => {
   useEffect(() => {
     if (isOpen) {
       setTmp(value.data?.defaultState || '');
+      setIsFormValid(value.data?.isValid !== false);
     }
   }, [isOpen, value.data]);
 

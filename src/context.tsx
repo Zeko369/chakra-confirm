@@ -16,6 +16,7 @@ export interface ConfirmData<T = string> {
   textConfirm?: string;
 
   // TODO: DO THIS PROPERLY
+  isValid?: false;
   defaultState?: Partial<T>;
   customBody?: React.FC<{
     state: T;
