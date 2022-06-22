@@ -152,6 +152,9 @@ const GlobalConfirmModal: React.FC = () => {
                   <CustomForm
                     state={tmp}
                     onSubmit={onClick}
+                    onSubmitWithData={(state) =>
+                      value.data?.onClick(state as any)
+                    }
                     setState={setTmp}
                     isFormValid={isFormValid}
                     setIsFormValid={setIsFormValid}

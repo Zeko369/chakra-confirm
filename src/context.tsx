@@ -21,6 +21,7 @@ export interface ConfirmData<T = string> {
     state: T;
     setState: React.Dispatch<React.SetStateAction<T>>;
     onSubmit: () => unknown;
+    onSubmitWithData: (data: T) => unknown;
 
     isFormValid: boolean;
     setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
