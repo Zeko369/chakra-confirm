@@ -14,7 +14,8 @@
     "lint": "tsdx lint src test example/pages",
     "prepare": "tsdx build",
     "size": "size-limit",
-    "analyze": "size-limit --why"
+    "analyze": "size-limit --why",
+    "deploy": "np"
   },
   "peerDependencies": {
     "@chakra-ui/react": ">=1",

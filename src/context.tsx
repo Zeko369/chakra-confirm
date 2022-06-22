@@ -20,6 +20,7 @@ export interface ConfirmData<T = string> {
   customBody?: React.FC<{
     state: T;
     setState: React.Dispatch<React.SetStateAction<T>>;
+    onSubmit: () => unknown;
 
     isFormValid: boolean;
     setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
