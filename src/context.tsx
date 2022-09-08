@@ -6,6 +6,7 @@ export interface ConfirmData<T = string> {
   label?: string;
   actionBody?: (close: () => void) => JSX.Element | false | null;
   buttonText?: string;
+  cancelText?: string;
   buttonColor?: string;
   isCentered?: boolean;
   onlyAlert?: boolean;

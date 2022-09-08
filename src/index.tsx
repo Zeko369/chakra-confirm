@@ -176,7 +176,9 @@ const GlobalConfirmModal: React.FC = () => {
           )}
 
           <AlertDialogFooter>
-            <Button onClick={onClose}>{defaults.cancel}</Button>
+            <Button onClick={onClose}>
+              {value.data?.cancelText || defaults.cancel}
+            </Button>
             {!value.data?.onlyAlert && (
               <SubmitButton
                 buttonProps={{
