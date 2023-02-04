@@ -21,6 +21,7 @@ import {
 } from '@chakra-ui/react';
 
 import {
+  ConfirmCustomBody,
   ConfirmContext,
   confirmContext,
   ConfirmContextValue,
@@ -28,6 +29,8 @@ import {
   defaultDefaults,
   PopupType
 } from './context';
+
+export { ConfirmCustomBody };
 
 interface SubmitButtonProps {
   onClick: () => void;

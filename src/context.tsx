@@ -1,5 +1,14 @@
 import React, { createContext } from 'react';
 
+export type ConfirmCustomBody<T = string> = React.FC<{
+  state: T;
+  setState: React.Dispatch<React.SetStateAction<T>>;
+  onSubmit: () => unknown;
+  onSubmitWithData: (data: T) => unknown;
+
+  isFormValid: boolean;
+  setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
+}>;
 export interface ConfirmData<T = string> {
   title?: string;
   body?: JSX.Element | string | false | null;
@@ -19,15 +28,7 @@ export interface ConfirmData<T = string> {
   // TODO: DO THIS PROPERLY
   isValid?: false;
   defaultState?: Partial<T>;
-  customBody?: React.FC<{
-    state: T;
-    setState: React.Dispatch<React.SetStateAction<T>>;
-    onSubmit: () => unknown;
-    onSubmitWithData: (data: T) => unknown;
-
-    isFormValid: boolean;
-    setIsFormValid: React.Dispatch<React.SetStateAction<boolean>>;
-  }>;
+  customBody?: ConfirmCustomBody<T>;
 }
 
 export type PopupType = 'prompt' | 'confirm' | 'alert';
